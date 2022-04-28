@@ -49,17 +49,15 @@ private extension ViewController {
     }
     
     func cellTapped(_ cell: Cell) {
-        if cell.isNotValueSet {
-            cell.isNotValueSet = false
-            if player {
-                player = false
-                cell.cellButton.setTitle("X", for: .normal)
-            }
-            else {
-                player = true
-                cell.cellButton.setTitle("O", for: .normal)
-            }
+        if player {
+            player = false
+            cell.set(value: "X")
         }
+        else {
+            player = true
+            cell.set(value: "O")
+        }
+//        player.toggle()
         findWinner()
     }
     
@@ -103,10 +101,10 @@ private extension ViewController {
         for cell in grid {
             cell.cellButton.setTitle(nil, for: .normal)
             cell.cellButton.isEnabled = true
-            cell.isNotValueSet = true
+            cell.isValueSet = false
             player = true
             if (playerWinLabel != nil) {
-            playerWinLabel.text = nil
+                playerWinLabel.text = nil
             }
         }
     }
@@ -137,6 +135,7 @@ private extension ViewController {
         newGameButton = UIButton()
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
         newGameButton.backgroundColor = .green
+        newGameButton.setTitleColor(.black, for: .normal)
         newGameButton.layer.cornerRadius = 12
         newGameButton.setTitle("New Game", for: .normal)
         newGameButton.addTarget(self, action: #selector(newGame), for: .touchUpInside)
@@ -149,7 +148,6 @@ private extension ViewController {
         horizontalStack.axis = .horizontal
         horizontalStack.spacing = 10
         horizontalStack.distribution = .fillEqually
-        horizontalStack.translatesAutoresizingMaskIntoConstraints = false
         return horizontalStack
     }
     

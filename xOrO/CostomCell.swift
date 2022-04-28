@@ -11,7 +11,7 @@ class Cell: UIView {
     
     var cellButton: UIButton!
     var onButtonSelection:(() -> Void)?
-    var isNotValueSet = true
+    var isValueSet = false
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -27,9 +27,15 @@ class Cell: UIView {
     func setButtonAction() {
         cellButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
-
+    
     @objc func buttonTapped() {
         onButtonSelection?()
+    }
+    func set(value: String) {
+        if !isValueSet {
+            cellButton.setTitle(value , for: .normal)
+        }
+        isValueSet = true
     }
 }
 
