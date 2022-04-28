@@ -48,16 +48,16 @@ private extension ViewController {
         }
     }
     
-    func cellTapped(_ sender: Cell) {
-        if sender.isNotValueSet {
-            sender.isNotValueSet = false
+    func cellTapped(_ cell: Cell) {
+        if cell.isNotValueSet {
+            cell.isNotValueSet = false
             if player {
                 player = false
-                sender.cellButton.setTitle("X", for: .normal)
+                cell.cellButton.setTitle("X", for: .normal)
             }
             else {
                 player = true
-                sender.cellButton.setTitle("O", for: .normal)
+                cell.cellButton.setTitle("O", for: .normal)
             }
         }
         findWinner()
