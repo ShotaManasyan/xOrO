@@ -31,11 +31,27 @@ class Cell: UIView {
     @objc func buttonTapped() {
         onButtonSelection?()
     }
+    
     func set(value: String) {
         if !isValueSet {
             cellButton.setTitle(value , for: .normal)
+            cellButton.isEnabled = false
         }
         isValueSet = true
+    }
+    
+    func removeCellText() {
+        cellButton.setTitle("", for: .normal)
+        cellButton.isEnabled = true
+        isValueSet = false
+        cellButton.backgroundColor = .white
+    }
+    func cellDisebled() {
+        cellButton.isEnabled = false
+    }
+    
+    func cellbackgroundColor() {
+        cellButton.backgroundColor = .green
     }
 }
 
@@ -43,7 +59,9 @@ private extension Cell {
     
     func initButton() {
         cellButton = UIButton()
-        cellButton.backgroundColor = .black
+        cellButton.backgroundColor = .white
+        cellButton.setTitleColor(.black, for: .normal)
+        cellButton.titleLabel?.font = UIFont.systemFont(ofSize: 25)
         cellButton.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(cellButton)
