@@ -14,28 +14,27 @@ class ViewController: UIViewController {
     var newGameButton: UIButton!
     var playerWinLabel: UILabel!
     var grid: [[String]] = []
-    var gridArray: [Cell] = []
+    var gridArray: [squareView] = []
     let range = 0...2
-    
-    var gridDisebledState = false {
+
+    var gridDisabledState = false {
         
         didSet {
-            if gridDisebledState {
-                gridArray.forEach({ $0.cellDisebled() })
+            if gridDisabledState {
+                gridArray.forEach({ $0.SquareDisebled() })
             }
         }
     }
     
     var newGameState = false {
-        
+
         didSet {
             if newGameState {
-                gridArray.forEach({ $0.removeCellText() })
+                gridArray.forEach({ $0.removeSquareText() })
                 newGameState = false
             }
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +53,7 @@ class ViewController: UIViewController {
             
             grid.append([])
             for j in range {
-                let cell = Cell()
+                let cell = squareView()
                 horizontalStackView.addArrangedSubview(cell)
                 
                 cell.onButtonSelection = {
@@ -77,26 +76,19 @@ class ViewController: UIViewController {
     }
     
     func findWinner() {
-        var drow = 0
+        var draw = 0
         for i in range {
             var row = 0
             var column = 0
             var diagonal1 = 0
             var diagonal2 = 0
             for j in range {
-                
-                if grid[i][j] != "" {
-                    drow += 1
-                    print(drow)
-                    if drow == 9 {
-                    playerWinLabel.text = "The game ended in a draw"
-                    }
-                }
-                
+          
                 if grid[i][i] == grid[i][j], grid[i][j] != "" {
                     row += 1
                     if row == range.count {
                         gridDisebled()
+                        break
                     }
                 }
                 
@@ -104,6 +96,7 @@ class ViewController: UIViewController {
                     column += 1
                     if column == range.count {
                         gridDisebled()
+                        break
                     }
                 }
                 
@@ -111,6 +104,7 @@ class ViewController: UIViewController {
                     diagonal1 += 1
                     if diagonal1 == range.count {
                         gridDisebled()
+                        break
                     }
                 }
                 
@@ -118,8 +112,18 @@ class ViewController: UIViewController {
                     diagonal2 += 1
                     if diagonal2 == range.count {
                         gridDisebled()
+                        break
                     }
                 }
+                
+                if grid[i][j] != "" {
+                    draw += 1
+                    if draw == 9 {
+                    playerWinLabel.text = "The game ended in a draw"
+                        break
+                    }
+                }
+                
             }
         }
         
@@ -142,7 +146,7 @@ private extension ViewController {
     
     func gridDisebled() {
         playerWinLabel.text = "Player is winner"
-        gridDisebledState = true
+        gridDisabledState = true
     }
     
     func presentTheWinner() {
